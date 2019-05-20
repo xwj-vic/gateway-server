@@ -20,6 +20,18 @@ spec:
       imagePullSecrets:
         - name: ecr-secret
 ---
+kind: Service
+apiVersion: v1
+metadata:
+  namespace: {{namespace}}
+  name: {{service}}
+spec:
+  selector:
+    k8s-app: {{service}}
+  ports:
+  - port: 8080
+    protocol: TCP
+---
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
