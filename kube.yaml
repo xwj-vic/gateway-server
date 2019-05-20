@@ -16,7 +16,7 @@ spec:
         image: {{image}}
         imagePullPolicy: IfNotPresent
         ports:
-        - containerPort: 9080
+        - containerPort: 8080
       imagePullSecrets:
         - name: ecr-secret
 ---
@@ -44,5 +44,5 @@ spec:
       paths:
       - path: /
         backend:
-          serviceName: jenkins
+          serviceName: {{service}}
           servicePort: 8080
