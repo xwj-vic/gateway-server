@@ -1,0 +1,36 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: {{service}}
+  namespace: {{namespace}}
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: {{service}}
+        version: v1
+    spec:
+      containers:
+      - name: {{service}}
+        image: {{image}}
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 9080
+      imagePullSecrets:
+        - name: ecr-secret
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: {{service}}
+  namespace: {{namespace}}
+spec:
+  rules:
+  - host: eureka.{{team}}.twu-china.cn
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: jenkins
+          servicePort: 8080
