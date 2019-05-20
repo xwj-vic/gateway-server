@@ -1,8 +1,8 @@
-apiVersion: extensions/v1beta1
 kind: Deployment
+apiVersion: apps/v1
 metadata:
-  name: {{service}}
-  namespace: {{namespace}}
+  name: eureka-server
+  namespace: team-a-dev
 spec:
   replicas: 1
   selector:
@@ -10,27 +10,27 @@ spec:
       k8s-app: eureka-server
   template:
     metadata:
+      namespace: team-a-dev
       labels:
-        app: {{service}}
-        version: v1
+        k8s-app: eureka-server
     spec:
       containers:
-      - name: {{service}}
-        image: {{image}}
+      - name: eureka-server
+        image: 076880417388.dkr.ecr.cn-northwest-1.amazonaws.com.cn/team-a:eureka-server-8
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8080
       imagePullSecrets:
-        - name: ecr-secret
+      - name: ecr-secret
 ---
 kind: Service
 apiVersion: v1
 metadata:
-  namespace: {{namespace}}
-  name: {{service}}
+  namespace: team-a-dev
+  name: eureka-server
 spec:
   selector:
-    k8s-app: {{service}}
+    k8s-app: eureka-server
   ports:
   - port: 8080
     name: http
@@ -39,14 +39,14 @@ spec:
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: {{service}}
-  namespace: {{namespace}}
+  name: eureka-server
+  namespace: team-a-dev
 spec:
   rules:
-  - host: eureka.{{team}}.twu-china.cn
+  - host: eureka.team-a.twu-china.cn
     http:
       paths:
       - path: /
         backend:
-          serviceName: {{service}}
+          serviceName: eureka-server
           servicePort: 8080
