@@ -7,7 +7,7 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      k8s-app: eureka-server
+      k8s-app: gateway-server
   template:
     metadata:
       labels:
@@ -19,7 +19,7 @@ spec:
         image: {{image}}
         imagePullPolicy: IfNotPresent
         ports:
-        - containerPort: 8080
+        - containerPort: 8766
       imagePullSecrets:
         - name: ecr-secret
 ---
@@ -32,7 +32,7 @@ spec:
   selector:
     k8s-app: {{service}}
   ports:
-  - port: 8080
+  - port: 8766
     name: http
     protocol: TCP
 ---
@@ -43,10 +43,10 @@ metadata:
   namespace: {{namespace}}
 spec:
   rules:
-  - host: eureka.{{team}}.twu-china.cn
+  - host: api.{{team}}.twu-china.cn
     http:
       paths:
       - path: /
         backend:
           serviceName: {{service}}
-          servicePort: 8080
+          servicePort: 8766

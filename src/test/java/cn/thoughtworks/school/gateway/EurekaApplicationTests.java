@@ -1,4 +1,4 @@
-package cn.thoughtworks.school.eureka;
+package cn.thoughtworks.school.gateway;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

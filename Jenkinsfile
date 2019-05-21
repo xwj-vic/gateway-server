@@ -1,6 +1,6 @@
 node{
     stage('Checkout') {
-        git url: 'https://github.com/tw-cloud-native/eureka-server.git',
+        git url: 'https://github.com/tw-cloud-native/gateway-server.git',
             branch: 'master'
     }
 
@@ -9,7 +9,7 @@ node{
     }
 
     withEnv([
-        'SERVICE=eureka-server'
+        'SERVICE=gateway-server'
     ]){
         stage('Build') {
             sh './build.sh'

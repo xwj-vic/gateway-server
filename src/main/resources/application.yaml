@@ -1,4 +1,24 @@
+server:
+  port: 8766
+
+spring:
+  application:
+    name: gateway-server
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true #在eureka中，服务是以大写的形式注册的，可以转化成小写
+      routes:
+        - id: inventory-service #服务唯一ID标识
+          uri: lb://inventory-service # 注册中心的服务id
+          predicates:
+            - Path=/client/** #请求转发
+          filters:
+            - StripPrefix=1 #切割请求，去除/client/
+
 eureka:
   client:
-    register-with-eureka: false  # 当前微服务不注册到eureka中(消费端)
-    fetch-registry: false
+    service-url:
+      defaultZone: http://localhost:8080/gateway/

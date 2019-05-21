@@ -1,22 +1,22 @@
 kind: Deployment
 apiVersion: apps/v1
 metadata:
-  name: eureka-server
+  name: gateway-server
   namespace: team-a-dev
 spec:
   replicas: 1
   selector:
     matchLabels:
-      k8s-app: eureka-server
+      k8s-app: gateway-server
   template:
     metadata:
       namespace: team-a-dev
       labels:
-        k8s-app: eureka-server
+        k8s-app: gateway-server
     spec:
       containers:
-      - name: eureka-server
-        image: 076880417388.dkr.ecr.cn-northwest-1.amazonaws.com.cn/team-a:eureka-server-8
+      - name: gateway-server
+        image: 076880417388.dkr.ecr.cn-northwest-1.amazonaws.com.cn/team-a:gateway-server-8
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8080
@@ -27,10 +27,10 @@ kind: Service
 apiVersion: v1
 metadata:
   namespace: team-a-dev
-  name: eureka-server
+  name: gateway-server
 spec:
   selector:
-    k8s-app: eureka-server
+    k8s-app: gateway-server
   ports:
   - port: 8080
     name: http
@@ -39,14 +39,14 @@ spec:
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: eureka-server
+  name: gateway-server
   namespace: team-a-dev
 spec:
   rules:
-  - host: eureka.team-a.twu-china.cn
+  - host: gateway.team-a.twu-china.cn
     http:
       paths:
       - path: /
         backend:
-          serviceName: eureka-server
+          serviceName: gateway-server
           servicePort: 8080
