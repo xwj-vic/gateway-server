@@ -9,7 +9,8 @@ node{
     }
 
     withEnv([
-        'SERVICE=gateway-server'
+        'SERVICE=gateway-server',
+        'profiles=dev'
     ]){
         stage('Build') {
             sh './build.sh'

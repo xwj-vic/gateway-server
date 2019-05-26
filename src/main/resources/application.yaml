@@ -1,9 +1,4 @@
-server:
-  port: 8766
-
 spring:
-  application:
-    name: gateway-server
   cloud:
     gateway:
       discovery:
@@ -16,9 +11,15 @@ spring:
           predicates:
             - Path=/inventory/** #请求转发
           filters:
-            - StripPrefix=1 #切割请求，去除/client/
+            - StripPrefix=1 #切割请求，去除/inventory/
+        - id: order-service #服务唯一ID标识
+          uri: lb://order-service # 注册中心的服务id
+          predicates:
+            - Path=/order/** #请求转发
+          filters:
+            - StripPrefix=1 #切割请求，去除/order/
 
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:8080/gateway/
+      defaultZone: http://localhost:8080/eureka/

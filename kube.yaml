@@ -7,7 +7,7 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      k8s-app: gateway-server
+      k8s-app: {{service}}
   template:
     metadata:
       labels:
@@ -20,6 +20,9 @@ spec:
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8766
+        env:
+        - name: SPRING_PROFILES_ACTIVE
+          value: {{profiles}}
       imagePullSecrets:
         - name: ecr-secret
 ---
