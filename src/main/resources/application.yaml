@@ -1,6 +1,8 @@
 spring:
   cloud:
     gateway:
+      default-filters:
+          - AddResponseHeader=X-Response-HELLO, WORLD
       discovery:
         locator:
           enabled: true
@@ -18,6 +20,10 @@ spring:
             - Path=/order/** #请求转发
           filters:
             - StripPrefix=1 #切割请求，去除/order/
+        - id: header_route
+          uri: http://baidu.com
+          predicates:
+          - Header=X-Request-Site, baidu
   sleuth:
     sampler:
       probability: 1.0
