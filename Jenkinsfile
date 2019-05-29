@@ -1,7 +1,6 @@
 node{
     stage('Checkout') {
-        git url: 'https://github.com/tw-cloud-native/gateway-server.git',
-            branch: 'master'
+        checkout scm
     }
 
     stage('Test') {
@@ -10,12 +9,16 @@ node{
 
     withEnv([
         'SERVICE=gateway-server',
-        'profiles=dev'
     ]){
         stage('Build') {
             sh './build.sh'
         }
+    }
 
+    withEnv([
+        'SERVICE=gateway-server',
+        'profiles=dev'
+    ]){
         stage('Deploy') {
             sh './deploy.sh'
         }
