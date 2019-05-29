@@ -8,12 +8,6 @@ spring:
           enabled: true
           lower-case-service-id: true #在eureka中，服务是以大写的形式注册的，可以转化成小写
       routes:
-        - id: inventory-service #服务唯一ID标识
-          uri: lb://inventory-service # 注册中心的服务id
-          predicates:
-            - Path=/inventory/** #请求转发
-          filters:
-            - StripPrefix=1 #切割请求，去除/inventory/
         - id: order-service #服务唯一ID标识
           uri: lb://order-service # 注册中心的服务id
           predicates:
