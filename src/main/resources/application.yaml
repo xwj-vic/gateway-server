@@ -14,6 +14,8 @@ spring:
             - Path=/order/** #请求转发
           filters:
             - StripPrefix=1 #切割请求，去除/order/
+        #TODO: 添加Inventory Service的反向代理
+
         - id: header_route
           uri: http://baidu.com
           predicates:
