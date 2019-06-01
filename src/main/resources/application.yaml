@@ -15,7 +15,12 @@ spring:
           filters:
             - StripPrefix=1 #切割请求，去除/order/
         #TODO: 添加Inventory Service的反向代理
-
+        - id: inventory-service #服务唯一ID标识
+          uri: lb://inventory-service # 注册中心的服务id
+          predicates:
+            - Path=/inventory/** #请求转发
+          filters:
+            - StripPrefix=1 #切割请求，去除/order/
         - id: header_route
           uri: http://baidu.com
           predicates:
